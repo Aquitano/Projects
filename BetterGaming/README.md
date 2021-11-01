@@ -4,8 +4,11 @@ Hi! This is the README.md file of the BetterGaming project.
 BetterGaming is a semi functional commerce shop for video games. It has a landing page, a search bar, a fully functional account system, a fully functional shopping cart and a semi functional buy process.
 
 **Note:**
-All database connections are configured to work in XAMPP  (-> Localhost).
-Database export file: *Databse.SQL* (all personal information removed/anonymized)
+All database connections are not configured. Configure connection in search.php & dbh-inc.php. <br />
+Database export file: **BetterGaming.sql** (all personal information in the database are removed.)
+## Demo
+**Note:** Charset is not configured properly in the demo because free hosting does not allow it.
+[Demo-Link](http://bettergaming.aquitano.ga/)
 #  Used Technologies/Languages
 ###  Frontend:
 - HTML
