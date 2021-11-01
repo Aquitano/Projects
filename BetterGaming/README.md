@@ -19,10 +19,10 @@ Database export file: *Databse.SQL* (all personal information removed/anonymized
 - PHP
 - MariaDB/SQL
 #  Folders Structure
-./css/ - CSS files for the website
-./img/ - Images for the website
-./includes/ - PHP Scripts for communication with backend/database
-./js/ - JavaScript files for the website
+./css/ - CSS files for the website <br />
+./img/ - Images for the website <br />
+./includes/ - PHP Scripts for communication with backend/database <br />
+./js/ - JavaScript files for the website <br />
 ./utilities/ - PHP Script for generating test database/test data set
 #  Features
 - animated landing page with a search bar, list of featured video games, most recently added games and other information about the webpage
