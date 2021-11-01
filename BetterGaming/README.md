@@ -14,7 +14,6 @@ Database export file: *Databse.SQL* (all personal information removed/anonymized
 - JavaScript
 - PHP (dynamically generates pages like single game page, all games page, account page and shopping list)
 ###  Backend:
-
 - JavaScript (ajax)
 - PHP
 - MariaDB/SQL
@@ -26,7 +25,5 @@ Database export file: *Databse.SQL* (all personal information removed/anonymized
 ./utilities/ - PHP Script for generating test database/test data set
 #  Features
 - animated landing page with a search bar, list of featured video games, most recently added games and other information about the webpage
-
 - all games page with live search bar (ajax) and different sorting options
-
 - dynamic single game page with all information in the database about the specific game (availability, price, title, description, images, categories)
