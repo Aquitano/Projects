@@ -1,6 +1,5 @@
 <?php
 
-// Import of Search.php
 require_once('search.php');
 
 if (isset($_POST["name"])) {

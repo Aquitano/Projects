@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 // Checks if it was entered via submitting of details on details page

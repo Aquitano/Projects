@@ -1,4 +1,5 @@
 <?php
+
 // Checks if it was entered via submitting of login on login page
 
 if (isset($_POST["submit"])) {

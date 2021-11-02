@@ -1,5 +1,8 @@
 <?php
 
+// This script can create random product keys and add them to the database (table: product_unused_keys) according to the available stock of every game. 
+// (This script should only be used for a demo of this shop)
+
 // Prevents script from being executed
 if (count(get_included_files()) == 1) exit("Direct access not permitted.");
 
