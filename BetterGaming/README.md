@@ -7,7 +7,7 @@ BetterGaming is a semi functional commerce shop for video games. It has a landin
 All database connections are not configured. Configure connection in search.php & dbh-inc.php. <br />
 Database export file: [**BetterGaming.sql**](https://github.com/Aquitano/Projects/blob/main/BetterGaming/BetterGaming.sql) (all personal information in the database are removed.)
 ## Demo
-**Note:** Charset is not configured properly in the demo because used free server hoster does not allow it. <br />
+**Note:** Charset can not be configured properly in the demo due to limitations of used free server hoster. <br />
 [Demo-Link](http://bettergaming.aquitano.ga/)
 #  Used Technologies/Languages
 ###  Frontend:
