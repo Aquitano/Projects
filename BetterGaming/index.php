@@ -45,7 +45,6 @@ session_start();
             <div class="search">
                 <form class="field-c" action="games" method="POST">
                     <input type="text" placeholder="Search..." class="field" id="search" name="search" />
-                    </script>
                     <div class="icons-c">
                         <div class="icon-search"></div>
                         <div class="icon-close" onclick="document.getElementById('search').value = ''">
@@ -71,14 +70,6 @@ session_start();
             <img src="img/menu.png" alt="menu" class="menu-icon" onclick="togglemenu()" />
         </div>
         <!-- Welcome items -->
-
-        <!-- Checks if user is logged in -->
-        <!-- <?php
-                if (isset($_SESSION["userid"])) {
-                    echo "<a href='includes/logout-inc.php'>Logout</a>";
-                    echo "<p href='includes/logout-inc.php'>" . $_SESSION["email"] . "</p>";
-                }
-                ?> -->
 
         <div class="row">
             <div class="col-1 t1" id="t1">

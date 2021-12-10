@@ -1,6 +1,6 @@
 <?php
 
-if(count(get_included_files()) ==1) exit("Direct access not permitted.");
+if(count(get_included_files()) ==1){ exit("Direct access not permitted.");}
 
 // Connecting to database and checking if connection was successfully established
 

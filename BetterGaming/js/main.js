@@ -14,7 +14,7 @@ function togglemenu() {
 
 // Loading animation via PaceJS Framework
 
-paceOptions = {
+const paceOptions = {
   ajax: true,
   document: true,
   eventLag: false
@@ -42,7 +42,7 @@ ScrollOut();
 document.addEventListener("mousemove", parallax);
 
 function parallax(e) {
-  img = $(".controller");
+  var img = $(".controller");
   const speed = img.attr("data-speed");
 
   const x = (window.innerWidth - e.pageX * speed) / 100;

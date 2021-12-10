@@ -43,7 +43,7 @@ if (isset($_POST["submit"])) {
         exit();
     }
 
-    // Cheking if password meets security standarts
+    // Checking if password meets security standards
 
     if (pwdSecurity($pwd) !== false) {
         header("Location: ../account.php?error=security?site=register");
