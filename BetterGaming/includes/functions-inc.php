@@ -42,7 +42,7 @@ function pwdMatch($pwd, $pwdRepeat)
     return $result;
 }
 
-// Checking if password meets security standarts
+// Checking if password meets security standards
 
 function pwdSecurity($pwd)
 {
@@ -72,13 +72,13 @@ function emailExists($con, $email)
     $resultData = mysqli_stmt_get_result($statement);
 
     if ($row = mysqli_fetch_assoc($resultData)) {
-        return $row;
+        result = $row;
     } else {
-        $result = false;
-        return $result;
+        result = false;
     }
 
     mysqli_stmt_close($statement);
+    return $result
 }
 
 // Adding User to database
@@ -142,13 +142,13 @@ function loginUser($con, $email, $pwd)
 
     $checkPwd = password_verify($pwd, $pwdHashed);
 
-    if ($checkPwd == false) {
+    if (!$checkPwd) {
         header("location: ../account.php?error=wronglogin&site=login");
         exit();
-    } else if ($checkPwd == true) {
+    } else if ($checkPwd) {
         // Logging User in % Setting session variables
         $_SESSION["noaddress"] = "0";
-        if (addressset($con, $email) == false) {
+        if (!addressset($con, $email)) {
             $_SESSION["noaddress"] = "1";
         }
         $_SESSION["userid"] = $emailExists["id"];
@@ -177,13 +177,12 @@ function addressset($con, $email)
 
     if (!mysqli_fetch_assoc($resultData)) {
         $result = false;
-        return $result;
     } else {
         $result = true;
-        return $result;
     }
 
     mysqli_stmt_close($statement);
+    return $result;
 }
 
 // Checking if any Input field is empty
@@ -235,7 +234,6 @@ function addCart($con, $game, $user, $quantity)
     mysqli_stmt_execute($statement);
     mysqli_stmt_close($statement);
 
-    //header("Location: ../game/$game");
     exit();
 }
 
@@ -364,7 +362,7 @@ function insertkey($con, $order, $product)
 function updatestock($con, $product, $quantity)
 {
     $sql = "UPDATE product SET available_stock = available_stock - '$quantity' WHERE id = '$product';";
-    $result = mysqli_query($con, $sql);
+    mysqli_query($con, $sql);
 }
 
 // Get itemid from product and order id
