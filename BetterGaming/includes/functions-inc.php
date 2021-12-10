@@ -1,8 +1,10 @@
 <?php
 
-if (count(get_included_files()) == 1) exit("Direct access not permitted.");
+if (count(get_included_files()) == 1) {exit("Direct access not permitted.");}
 
 session_start();
+
+$stmt_failed = "Location: ../cart.php?error=statmentfailed";
 
 // Account SignUp
 
@@ -72,13 +74,13 @@ function emailExists($con, $email)
     $resultData = mysqli_stmt_get_result($statement);
 
     if ($row = mysqli_fetch_assoc($resultData)) {
-        result = $row;
+        $result = $row;
     } else {
-        result = false;
+        $result = false;
     }
 
     mysqli_stmt_close($statement);
-    return $result
+    return $result;
 }
 
 // Adding User to database
@@ -131,7 +133,7 @@ function loginUser($con, $email, $pwd)
     // Checks if email exists
     $emailExists = emailExists($con, $email);
 
-    if ($emailExists == false) {
+    if (!$emailExists) {
         header("location: ../account.php?error=wronglogin&site=login");
         exit();
     }
@@ -226,7 +228,7 @@ function addCart($con, $game, $user, $quantity)
     $sql = "INSERT INTO cart_item (product_id, user_id, quantity) VALUES(?, ?, ?);";
     $statement = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($statement, $sql)) {
-        header("Location: ../cart.php?error=statmentfailed");
+        header($stmt_failed);
         exit();
     }
 
@@ -243,7 +245,7 @@ function removeCart($con, $game, $user)
     $sql = "DELETE FROM cart_item WHERE product_id = ? AND user_id = ?;";
     $statement = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($statement, $sql)) {
-        header("Location: ../cart.php?error=statmentfailed");
+        header($stmt_failed);
         exit();
     }
 
@@ -261,7 +263,7 @@ function updateQuantity($con, $id, $user, $quantity)
     $sql = "UPDATE cart_item SET quantity = ? WHERE user_id = ? AND product_id = ?;";
     $statement = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($statement, $sql)) {
-        header("Location: ../cart.php?error=statmentfailed");
+        header($stmt_failed);
         exit();
     }
 
@@ -279,7 +281,7 @@ function checkout($con, $user, $total, $payment_type)
     $sql = "INSERT INTO order_details (user_id, total, payment_type, payment_id, status) VALUES(?, ?, ?, ?, ?);";
     $statement = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($statement, $sql)) {
-        header("Location: ../cart.php?error=statmentfailed");
+        header($stmt_failed);
         exit();
     }
 
@@ -314,7 +316,7 @@ function checkout_items($con, $user, $payment_id)
 
         $statement = mysqli_stmt_init($con);
         if (!mysqli_stmt_prepare($statement, $sql)) {
-            header("Location: ../cart.php?error=statmentfailed");
+            header($stmt_failed);
             exit();
         }
 
@@ -335,7 +337,7 @@ function insertkey($con, $order, $product)
     $sql = "INSERT INTO order_key (order_item_id, product_key) VALUES(?, ?); ";
     $statement = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($statement, $sql)) {
-        header("Location: ../cart.php?error=statmentfailed");
+        header($stmt_failed);
         exit();
     }
 
@@ -386,7 +388,7 @@ function deletekey($con, $product_key)
     $sql = "DELETE FROM `product_unused_keys` WHERE `product_unused_keys`.`product_key` = ?;";
     $statement = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($statement, $sql)) {
-        header("Location: ../cart.php?error=statmentfailed");
+        header($stmt_failed);
         exit();
     }
 

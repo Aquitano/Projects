@@ -1,6 +1,6 @@
 <?php
 
-// Logs user out (unsets and destroys session data)
+// Logs user out (destroys session data)
 
 session_start();
 session_unset();
