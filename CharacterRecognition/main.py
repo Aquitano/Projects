@@ -1,10 +1,23 @@
-import numpy as np, scipy.special
+import numpy as np, scipy.special, matplotlib.pyplot
+
 a = 2 # sepal_length
 b = 2 # sepal_width
 c = 2 # petal_length
 d = 2 # petal_width 
 
+data_file = open("mnist_train_100.csv", "r")
+data_list = data_file.readlines()
+data_file.close()
+
+all_values = data_list[0].split(",")
+image_array = np.asfarray(all_values[1:]).reshape(28,28)
+matplotlib.pyplot.imshow(image_array, cmap='Greys', interpolation='None')
+
+scaled_input = (np.asfarray(all_values[1:]) / 255.0 * 0.99 ) + 0.01
+print(scaled_input)
+
 input = np.array([a, b, c, d])
+
 
 matrix = np.array([[1,2,3,4], [5,6,7,8], [9,10,11,12]])
 
@@ -22,7 +35,7 @@ class neuralNetwork:
 
         # link weight matrices, wih and who
         self.wih = np.random.normal(0.0, pow(self.hnodes, -0.5), (self.hnodes, self.inodes))
-        self.who = np.random.normal(0.0, pow(self.onodes, -0.5), (self.onodes), (self.onodes, self.hnodes))
+        self.who = np.random.normal(0.0, pow(self.onodes, -0.5), (self.onodes, self.hnodes))
 
         # learning rate
         self.lr = learning_rate
@@ -79,12 +92,30 @@ class neuralNetwork:
         return final_outputs
 
 # number of input, hidden, output nodes
-input_nodes = 3
-hidden_nodes = 3
-output_nodes = 3
+input_nodes = 784
+hidden_nodes = 100
+output_nodes = 10
 
 # learning rate is 0.3
 learning_rate = 0.3
 
 # create instance of neural network
 n = neuralNetwork(input_nodes, hidden_nodes, output_nodes, learning_rate)
+
+# train neural network
+
+## go through all records in the training
+for record in data_list:
+    # split record by commas
+    all_values = record.split(',')
+    # scale and shift the inputs
+    inputs = (np.asarray(all_values[1:]) / 255.0 * 0.99) + 0.01
+
+    targets = np.zeros(output_nodes) + 0.01
+
+    targets[int(all_values[0])] = 0.99
+
+    n.train(inputs, targets)
+    pass
+
+# https://github.com/makeyourownneuralnetwork/makeyourownneuralnetwork/
