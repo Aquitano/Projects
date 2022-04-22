@@ -1,22 +1,19 @@
 <?php
 
 if(count(get_included_files()) ==1){ exit("Direct access not permitted."); }
-
+include 'includes/variables.php';
 class DB
 {
     // Connection to MySQL database. Trying connection. Exception on Failure
     private $con;
-    private $host = '';
-    private $dbname = '';
-    private $user = '';
-    private $password = '';
 
     public function __construct()
     {
-        $dsn = "mysql:host=" . $this->host . ";dbname=" . $this->dbname;
+        global $var_host, $var_db, $var_username, $var_pas;
+        $dsn = "mysql:host=" . $var_host . ";dbname=" . $var_db;
 
         try {
-            $this->con = new PDO($dsn, $this->user, $this->password);
+            $this->con = new PDO($dsn, $var_username, $var_pas);
             $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             echo "Connection Failure" . $e->getMessage();
