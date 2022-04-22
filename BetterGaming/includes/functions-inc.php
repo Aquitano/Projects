@@ -227,8 +227,9 @@ function addCart($con, $game, $user, $quantity)
 {
     $sql = "INSERT INTO cart_item (product_id, user_id, quantity) VALUES(?, ?, ?);";
     $statement = mysqli_stmt_init($con);
+    global $stmt_failed;
     if (!mysqli_stmt_prepare($statement, $sql)) {
-        header($stmt_failed);
+        header("Location: $stmt_failed");
         exit();
     }
 
@@ -244,8 +245,9 @@ function removeCart($con, $game, $user)
 {
     $sql = "DELETE FROM cart_item WHERE product_id = ? AND user_id = ?;";
     $statement = mysqli_stmt_init($con);
+    global $stmt_failed;
     if (!mysqli_stmt_prepare($statement, $sql)) {
-        header($stmt_failed);
+        header("Location: $stmt_failed");
         exit();
     }
 
@@ -262,6 +264,7 @@ function updateQuantity($con, $id, $user, $quantity)
 {
     $sql = "UPDATE cart_item SET quantity = ? WHERE user_id = ? AND product_id = ?;";
     $statement = mysqli_stmt_init($con);
+    global $stmt_failed;
     if (!mysqli_stmt_prepare($statement, $sql)) {
         header($stmt_failed);
         exit();
@@ -280,8 +283,9 @@ function checkout($con, $user, $total, $payment_type)
 {
     $sql = "INSERT INTO order_details (user_id, total, payment_type, payment_id, status) VALUES(?, ?, ?, ?, ?);";
     $statement = mysqli_stmt_init($con);
+    global $stmt_failed;
     if (!mysqli_stmt_prepare($statement, $sql)) {
-        header($stmt_failed);
+        header("Location: $stmt_failed");
         exit();
     }
 
@@ -336,8 +340,9 @@ function insertkey($con, $order, $product)
 {
     $sql = "INSERT INTO order_key (order_item_id, product_key) VALUES(?, ?); ";
     $statement = mysqli_stmt_init($con);
+    global $stmt_failed;
     if (!mysqli_stmt_prepare($statement, $sql)) {
-        header($stmt_failed);
+        header("Location: $stmt_failed");
         exit();
     }
 
@@ -387,8 +392,9 @@ function deletekey($con, $product_key)
 {
     $sql = "DELETE FROM `product_unused_keys` WHERE `product_unused_keys`.`product_key` = ?;";
     $statement = mysqli_stmt_init($con);
+    global $stmt_failed;
     if (!mysqli_stmt_prepare($statement, $sql)) {
-        header($stmt_failed);
+        header("Location: $stmt_failed");
         exit();
     }
 
