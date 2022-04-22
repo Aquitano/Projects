@@ -8,7 +8,7 @@ $search = new DB();
 $data = $search->viewData();
 
 if (isset($_POST['search'])) {
-    $searchInput = $_POST['search'];
+    $searchInput = htmlspecialchars($_POST['search']);
     echo "<div id='HomeSearch' style='display: none;'>$searchInput</div>";
 }
 

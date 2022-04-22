@@ -6,9 +6,9 @@ require_once 'search.php';
 
 $search = new DB();
 $data = $search->viewData();
-$single = $search->viewSingleGame($_GET["id"]);
-$random = $search->viewRandom($_GET["id"]);
-$category = $search->viewCategory($_GET["id"]);
+$single = $search->viewSingleGame(htmlspecialchars($_GET["id"]));
+$random = $search->viewRandom(htmlspecialchars($_GET["id"]));
+$category = $search->viewCategory(htmlspecialchars($_GET["id"]));
 ?>
 
 <head>
