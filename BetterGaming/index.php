@@ -134,19 +134,19 @@ session_start();
             <h2 class="title">Games For</h2>
             <div class="row">
                 <div class="col-5">
-                    <img src="img/logo/Bethesda.png" alt="Bethesda" loading="lazy" />
+                    <img src="img/logo/Bethesda.webp" alt="Bethesda" loading="lazy" />
                 </div>
                 <div class="col-5">
-                    <img src="img/logo/epic.png" alt="Epic Games" loading="lazy" />
+                    <img src="img/logo/epic.webp" alt="Epic Games" loading="lazy" />
                 </div>
                 <div class="col-5">
-                    <img src="img/logo/steam.png" alt="Steam" loading="lazy" />
+                    <img src="img/logo/steam.webp" alt="Steam" loading="lazy" />
                 </div>
                 <div class="col-5">
-                    <img src="img/logo/RockstarGames.png" alt="Rockstar Games" loading="lazy" />
+                    <img src="img/logo/RockstarGames.webp" alt="Rockstar Games" loading="lazy" />
                 </div>
                 <div class="col-5">
-                    <img src="img/logo/Ubisoft.png" alt="Ubisoft" loading="lazy" />
+                    <img src="img/logo/Ubisoft.webp" alt="Ubisoft" loading="lazy" />
                 </div>
             </div>
         </div>
