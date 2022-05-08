@@ -194,17 +194,6 @@ session_start();
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
             Pace.on('done', function() {
-                $('.p').delay(500).animate({
-                    top: '30%',
-                    opacity: '0'
-                }, 3000, $.bez([0.19, 1, 0.22, 1]));
-
-
-                $('#preloader').delay(1500).animate({
-                    top: '-100%'
-                }, 2000, $.bez([0.19, 1, 0.22, 1]));
-
-
                 TweenMax.from(".navbar", 2, {
                     delay: 1.4,
                     y: 15,
