@@ -17,20 +17,26 @@ function togglemenu() {
 const paceOptions = {
   ajax: true,
   document: true,
-  eventLag: false
+  eventLag: false,
 };
 
-Pace.on('done', function() {
-  $('.p').delay(500).animate({
-      top: '30%',
-      opacity: '0'
-  }, 3000, $.bez([0.19, 1, 0.22, 1]));
+Pace.on("done", function () {
+  $(".p").animate(
+    {
+      top: "30%",
+      opacity: "0",
+    },
+    3000,
+    $.bez([0.19, 1, 0.22, 1])
+  );
 
-
-  $('#preloader').delay(1500).animate({
-      top: '-100%'
-  }, 2000, $.bez([0.19, 1, 0.22, 1]));
-
+  $("#preloader").animate(
+    {
+      top: "-100%",
+    },
+    2000,
+    $.bez([0.19, 1, 0.22, 1])
+  );
 });
 
 // Appear on Scroll via ScrollOut Framework

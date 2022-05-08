@@ -193,12 +193,6 @@ session_start();
     <script defer src="js/main-min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
-            paceOptions = {
-                ajax: true,
-                document: true,
-                eventLag: false
-            };
-
             Pace.on('done', function() {
                 $('.p').delay(500).animate({
                     top: '30%',
