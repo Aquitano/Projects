@@ -19,7 +19,7 @@ session_start();
     <meta name="keywords" content="BetterGaming, Better Gaming, Homepage, Landing-Page, Shopping" />
     <meta name="robots" content="index,follow" />
     <link rel="canonical" href="aquitano.ga/bettergaming/index">
-    <link rel="shortcut icon" href="img/logo.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="img/logo.webp" type="image/x-icon" />
     <title>Homepage - BetterGaming | Your Game Store</title>
 
     <!-- CSS -->
@@ -41,7 +41,7 @@ session_start();
     <!-- Header -->
     <div class="c">
         <div class="navbar">
-            <img src="img/logo.png" alt="Logo" class="logo" />
+            <img src="img/logo.webp" alt="Logo" class="logo" />
             <div class="search">
                 <form class="field-c" action="games" method="POST">
                     <input type="text" placeholder="Search..." class="field" id="search" name="search" />
@@ -86,7 +86,7 @@ session_start();
             </div>
 
             <div class="col-2">
-                <img src="img/landing.png" class="controller" alt="Landing page home image" data-speed="-2.5" />
+                <img src="img/landing.webp" class="controller" alt="Landing page home image" data-speed="-2.5" />
                 <div class="color-box"></div>
             </div>
         </div>
@@ -171,7 +171,7 @@ session_start();
                     </ol>
                 </div>
                 <div class="col-4 lg" data-speed="-1.5">
-                    <img src="img/logo.png" alt="Logo" />
+                    <img src="img/logo.webp" alt="Logo" />
                     <h4 style="font-size: 85%">Copyright © 2021 BetterGaming - All rights reserved</h4>
                 </div>
                 <div class="col-4 pay">
@@ -195,28 +195,28 @@ session_start();
         document.addEventListener("DOMContentLoaded", function(event) {
             Pace.on('done', function() {
                 TweenMax.from(".navbar", 2, {
-                    delay: 1.4,
+                    delay: 0.4,
                     y: 15,
                     opacity: 0,
                     ease: Expo.easeInOut,
                 });
 
                 TweenMax.from(".t1", 2, {
-                    delay: 2.15,
+                    delay: 1.15,
                     x: -50,
                     opacity: 0,
                     ease: Expo.easeInOut,
                 });
 
                 TweenMax.from(".controller", 2, {
-                    delay: 3.0,
+                    delay: 2.0,
                     x: -30,
                     opacity: 0,
                     ease: Expo.easeInOut,
                 });
 
                 TweenMax.from(".color-box", 2, {
-                    delay: 2.45,
+                    delay: 1.45,
                     x: 45,
                     opacity: 0,
                     ease: Expo.easeInOut,

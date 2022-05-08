@@ -23,7 +23,7 @@ if (isset($_POST['search'])) {
     <meta name="keywords" content="BetterGaming, Better Gaming, All games, games, Shopping" />
     <meta name="robots" content="index,follow" />
     <link rel="canonical" href="aquitano.ga/bettergaming/games">
-    <link rel="shortcut icon" href="img/logo.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="img/logo.webp" type="image/x-icon" />
     <title>All Games - BetterGaming | Your Game Store</title>
     <!-- CSS -->
     <link href="css/tailwind.min.css" rel="stylesheet">
@@ -64,7 +64,7 @@ if (isset($_POST['search'])) {
     <!-- Header -->
     <div class="c" style="min-height: 10vh;">
         <div class="navbar">
-            <a href="index"><img src="img/logo.png" alt="Logo" class="logo" /></a>
+            <a href="index"><img src="img/logo.webp" alt="Logo" class="logo" /></a>
             <div class="search">
                 <fieldset class="field-c" action="search.php" method="POST">
                     <input type="text" placeholder="Search..." class="field" id="searchBox" OnInput=search(this.value) />
@@ -139,7 +139,7 @@ if (isset($_POST['search'])) {
                     </ol>
                 </div>
                 <div class="col-4 lg">
-                    <img src="img/logo.png" alt="Logo" />
+                    <img src="img/logo.webp" alt="Logo" />
                     <h4 style="font-size: 85%">Copyright © 2021 BetterGaming - All rights reserved</h4>
                 </div>
                 <div class="col-4 pay">

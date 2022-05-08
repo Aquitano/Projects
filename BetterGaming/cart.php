@@ -28,7 +28,7 @@ echo "<div id='userid' style='display: none;'>$id</div>";
     <meta name="keywords" content="BetterGaming, Better Gaming, All games, games, Shopping" />
     <meta name="robots" content="index,follow" />
     <link rel="canonical" href="aquitano.ga/bettergaming/cart">
-    <link rel="shortcut icon" href="img/logo.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="img/logo.webp" type="image/x-icon" />
     <title>Shopping Cart - BetterGaming</title>
     <!-- CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -73,7 +73,7 @@ echo "<div id='userid' style='display: none;'>$id</div>";
     <!-- Header -->
     <div class="c" style="min-height: 10vh;">
         <div class="navbar">
-            <a href="index"><img src="img/logo.png" alt="Logo" class="logo" /></a>
+            <a href="index"><img src="img/logo.webp" alt="Logo" class="logo" /></a>
             <div class="search">
                 <form class="field-c" action="games" method="POST">
                     <input type="text" placeholder="Search..." class="field" id="search" name="search"/>
@@ -230,7 +230,7 @@ echo "<div id='userid' style='display: none;'>$id</div>";
                     </ol>
                 </div>
                 <div class="col-4 lg">
-                    <img src="img/logo.png" alt="Logo" />
+                    <img src="img/logo.webp" alt="Logo" />
                     <h4 style="font-size: 85%">Copyright © 2021 BetterGaming - All rights reserved</h4>
                 </div>
                 <div class="col-4 pay">

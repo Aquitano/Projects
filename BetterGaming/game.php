@@ -24,7 +24,7 @@ $category = $search->viewCategory(htmlspecialchars($_GET["id"]));
                                                                 } ?>" />
     <meta name="robots" content="index,follow" />
     <link rel="canonical" href="aquitano.ga/bettergaming/game/<?php echo $i["id"]; ?>">
-    <link rel="shortcut icon" href="../img/logo.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="../img/logo.webp" type="image/x-icon" />
     <title><?php foreach ($single as $i) {
                 echo $i["name"];
             } ?> - BetterGaming | Your Game Store</title>
@@ -84,7 +84,7 @@ $category = $search->viewCategory(htmlspecialchars($_GET["id"]));
     <!-- Header -->
     <div class="c" style="min-height: 10vh;">
         <div class="navbar">
-            <a href="../index"><img src="../img/logo.png" alt="Logo" class="logo" /></a>
+            <a href="../index"><img src="../img/logo.webp" alt="Logo" class="logo" /></a>
             <div class="search">
                 <fieldset class="field-c" action="../search" method="POST">
                     <input type="text" placeholder="Search..." class="field" id="searchBox" OnInput=search(this.value) />
@@ -213,7 +213,7 @@ $category = $search->viewCategory(htmlspecialchars($_GET["id"]));
                     </ol>
                 </div>
                 <div class="col-4 lg">
-                    <img src="../img/logo.png" alt="Logo" />
+                    <img src="../img/logo.webp" alt="Logo" />
                     <h4 style="font-size: 85%">Copyright © 2021 BetterGaming - All rights reserved</h4>
                 </div>
                 <div class="col-4 pay">
