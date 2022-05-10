@@ -184,7 +184,7 @@ $category = $search->viewCategory(htmlspecialchars($_GET["id"]));
             <?php foreach ($random as $i) { ?>
                 <a href="../game/<?php echo $i["id"]; ?>" class="hover">
                     <div data-scroll class="col-4">
-                        <img src="../img/game/<?php echo $i["name"]; ?>.jpg" loading="lazy" alt="<?php echo $i["name"]; ?>" />
+                        <img src="../img/game/<?php echo $i["name"]; ?>.jpg" loading="lazy" width="233" height="324" alt="<?php echo $i["name"]; ?>" />
                         <h4><?php echo $i["name"]; ?></h4>
                         <p><?php echo $i["price"]; ?>€</p>
                     </div>
