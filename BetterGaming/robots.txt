@@ -1,4 +1,4 @@
 User-Agent: *
 Allow: /
 
-Sitemap: http://45.131.108.171/sitemap.xml
+Sitemap: https://aquitano.ga/bettergaming/sitemap.xml

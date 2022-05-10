@@ -2,7 +2,7 @@
 <html lang="en">
 
 <?php
-require_once 'search.php';
+require_once 'includes/search.php';
 
 $search = new DB();
 $data = $search->viewData();
@@ -288,7 +288,7 @@ echo "<div id='userid' style='display: none;'>$id</div>";
         let data = new URLSearchParams();
         data.append(`user`, $("#userid").html());
 
-        fetch('searchdata.php', {
+        fetch('includes/searchdata.php', {
                 method: 'POST',
                 body: data
             })

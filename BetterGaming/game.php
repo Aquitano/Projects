@@ -2,7 +2,7 @@
 <html lang="en">
 
 <?php
-require_once 'search.php';
+require_once 'includes/search.php';
 
 $search = new DB();
 $data = $search->viewData();
@@ -273,7 +273,7 @@ $category = $search->viewCategory(htmlspecialchars($_GET["id"]));
                 data = new URLSearchParams();
             data.append(`name`, name);
             data.append(`option`, option - 1);
-            fetch('../searchdata.php', {
+            fetch('../includes/searchdata.php', {
                     method: 'POST',
                     body: data
                 }).then(res => res.json())

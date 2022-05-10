@@ -10,7 +10,7 @@ if (count(get_included_files()) == 1) exit("Direct access not permitted.");
 session_start();
 
 require_once 'includes/dbh-inc.php';
-require_once 'search.php';
+require_once 'includes/search.php';
 
 $search = new DB();
 $data = $search->viewData();

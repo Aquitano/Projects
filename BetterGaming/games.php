@@ -2,7 +2,7 @@
 <html lang="en">
 
 <?php
-require_once 'search.php';
+require_once 'includes/search.php';
 
 $search = new DB();
 $data = $search->viewData();
@@ -66,7 +66,7 @@ if (isset($_POST['search'])) {
         <div class="navbar">
             <a href="index"><img src="img/logo.webp" alt="Logo" class="logo" /></a>
             <div class="search">
-                <fieldset class="field-c" action="search.php" method="POST">
+                <fieldset class="field-c" action="includes/search.php" method="POST">
                     <input type="text" placeholder="Search..." class="field" id="searchBox" OnInput=search(this.value) />
                     <div class="icons-c">
                         <div class="icon-search"></div>
@@ -185,7 +185,7 @@ if (isset($_POST['search'])) {
             data.append(`name`, name);
             data.append(`option`, option - 1);
 
-            fetch('searchdata.php', {
+            fetch('includes/searchdata.php', {
                     method: 'POST',
                     body: data
                 })

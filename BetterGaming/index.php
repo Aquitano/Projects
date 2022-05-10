@@ -1,5 +1,5 @@
 <?php
-require_once 'search.php';
+require_once 'includes/search.php';
 
 $search = new DB();
 $featured = $search->viewFeatured();
@@ -100,7 +100,7 @@ session_start();
             <?php foreach ($featured as $i) { ?>
                 <a href="game/<?php echo $i["id"]; ?>" class="hover">
                     <div data-scroll class="col-4">
-                        <img src="img/game/<?php echo $i["name"]; ?>.jpg" loading="lazy" alt="<?php echo $i["name"]; ?>" />
+                        <img src="img/game/<?php echo $i["name"]; ?>.jpg" width="233" height="324" loading="lazy" alt="<?php echo $i["name"]; ?>" />
                         <h4><?php echo $i["name"]; ?></h4>
                         <p><?php echo $i["price"]; ?>€</p>
                     </div>
