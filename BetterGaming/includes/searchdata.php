@@ -1,6 +1,6 @@
 <?php
 
-require_once('includes/search.php');
+require_once('search.php');
 
 if (isset($_POST["name"])) {
     // Getting POST Data

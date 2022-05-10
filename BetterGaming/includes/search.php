@@ -1,7 +1,7 @@
 <?php
 
 if(count(get_included_files()) ==1){ exit("Direct access not permitted."); }
-include 'includes/variables.php';
+include 'variables.php';
 class DB
 {
     // Connection to MySQL database. Trying connection. Exception on Failure
