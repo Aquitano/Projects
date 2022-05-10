@@ -1,5 +1,5 @@
 <?php
-require_once 'includes/search.php';
+require_once 'functions/search.php';
 
 $search = new DB();
 $featured = $search->viewFeatured();

@@ -1,6 +1,6 @@
 <?php
 
-require_once('search.php');
+require_once('functions.php');
 
 if (isset($_POST["name"])) {
     // Getting POST Data

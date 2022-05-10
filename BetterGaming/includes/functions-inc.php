@@ -304,7 +304,7 @@ function checkout($con, $user, $total, $payment_type)
 // Adds items/games from a successful order to database
 function checkout_items($con, $user, $payment_id)
 {
-    require_once '../includes/search.php';
+    require_once '../functions/search.php';
 
     $search = new DB();
     $cart = $search->viewCart($user);
@@ -347,7 +347,7 @@ function insertkey($con, $order, $product)
     }
 
     // Fetches game key(s) for bought games
-    require_once '../includes/search.php';
+    require_once '../functions/search.php';
 
     $search = new DB();
     $pk = $search->getKey($product);
