@@ -10,7 +10,7 @@ class DB
     public function __construct()
     {
         global $var_host, $var_db, $var_username, $var_pas;
-        $dsn = "mysql:host=" . $var_host . ";dbname=" . $var_db;
+        $dsn = "mysql:host=" . $var_host . ";dbname=" . $var_db .";charset=utf8mb4";
 
         try {
             $this->con = new PDO($dsn, $var_username, $var_pas);
@@ -96,7 +96,8 @@ class DB
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getKey($Game){
+    public function getKey($Game)
+    {
         $query = "SELECT product_key FROM product_unused_keys WHERE product_id = $Game LIMIT 1";
         $statement = $this->con->prepare($query);
         $statement->execute();
