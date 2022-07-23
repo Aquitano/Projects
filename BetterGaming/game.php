@@ -317,7 +317,7 @@ $category = $search->viewCategory(htmlspecialchars($_GET["id"]));
             }
         }
     </script>
-    <script defer src="..js/scroll-out.min.js"></script>
+    <script defer src="../js/scroll-out.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/pace-js@latest/pace.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/jquery-bez@1.0.11/src/jquery.bez.js"></script>
