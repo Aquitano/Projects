@@ -185,7 +185,6 @@ session_start();
 
     <!------------- JS scripts ------------->
 
-    <script defer src="https://unpkg.com/scroll-out/dist/scroll-out.min.js"></script>
     <script defer src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/pace-js@latest/pace.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/jquery-bez@1.0.11/src/jquery.bez.js"></script>
