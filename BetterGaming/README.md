@@ -8,7 +8,7 @@ All database connections are not configured. Configure connection in search.php 
 Database export file: [**BetterGaming.sql**](https://github.com/Aquitano/Projects/blob/main/BetterGaming/BetterGaming.sql) (all personal information in the database are removed.)
 ## Demo
 **Note:** Charset can not be configured properly in the demo due to limitations of used free server hoster. <br />
-[Demo-Link](https://aquitano.ga/bettergaming/)
+[Demo-Link](https://bettergaming.thomasbreindl.me/?i=1)
 #  Used Technologies/Languages
 ###  Frontend:
 - HTML
