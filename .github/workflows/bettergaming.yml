@@ -1,23 +1,21 @@
-on: 
-  push: 
-    branches: 
-      - main
-    paths:
-      - BetterGaming/**
-name: "🚀 Deploy BetterGaming"
+on:
+    push:
+        branches:
+            - main
+name: '🚀 Deploy BetterGaming'
 jobs:
-  web-deploy:
-    name: 🎉 Deploy
-    runs-on: ubuntu-latest
-    steps:
-    - name: 🚚 Get latest code
-      uses: actions/checkout@v2
-    
-    - name: 📂 Sync files
-      uses: SamKirkland/FTP-Deploy-Action@4.3.0
-      with:
-        server: ${{ secrets.ftp_host }}
-        username: ${{ secrets.ftp_username }}
-        password: ${{ secrets.ftp_password }}
-        local-dir: ./BetterGaming/
-        server-dir: /htdocs/bettergaming/
+    web-deploy:
+        name: 🎉 Deploy
+        runs-on: ubuntu-latest
+        steps:
+            - name: 🚚 Get latest code
+              uses: actions/checkout@v2
+
+            - name: 📂 Sync files
+              uses: SamKirkland/FTP-Deploy-Action@4.3.0
+              with:
+                  server: ${{ secrets.ftp_host }}
+                  username: ${{ secrets.ftp_username }}
+                  password: ${{ secrets.ftp_password }}
+                  local-dir: ./
+                  server-dir: /htdocs/bettergaming/
