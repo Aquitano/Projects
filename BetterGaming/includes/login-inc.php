@@ -1,29 +1,30 @@
 <?php
 
-// Checks if it was entered via submitting of login on login page
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 if (isset($_POST["submit"])) {
 
-    // Getting inputs from Input fields
-
-
-    $email = $_POST["email"];
+    $email = trim($_POST["email"]);
     $pwd = $_POST["pwd"];
 
     require_once 'dbh-inc.php';
     require_once 'functions-inc.php';
 
-    // Checking if any input is empty
+    // CSRF validation
+    if (!isset($_POST["csrf_token"]) || !validateCsrfToken($_POST["csrf_token"])) {
+        header("Location: ../account.php?error=csrf&site=login");
+        exit();
+    }
 
     if (emptyInputLogin($email, $pwd) !== false) {
         header("Location: ../account.php?error=emptyinput&site=login");
         exit();
     }
 
-    // Checks if valid information was entered and logs user in
-
     loginUser($con, $email, $pwd);
 } else {
-    header("Location: ../account.php&site=login");
+    header("Location: ../account.php?site=login");
     exit();
 }

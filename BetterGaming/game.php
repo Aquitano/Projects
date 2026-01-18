@@ -1,15 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <?php
+session_start();
 require_once 'functions/search.php';
+require_once 'includes/functions-inc.php';
 
 $search = new DB();
 $data = $search->viewData();
-$single = $search->viewSingleGame(htmlspecialchars($_GET["id"]));
-$random = $search->viewRandom(htmlspecialchars($_GET["id"]));
-$category = $search->viewCategory(htmlspecialchars($_GET["id"]));
+
+$gameId = isset($_GET["id"]) ? sanitizeInt($_GET["id"]) : null;
+if ($gameId === null) {
+    header("Location: games.php");
+    exit();
+}
+
+$single = $search->viewSingleGame($gameId);
+$random = $search->viewRandom($gameId);
+$category = $search->viewCategory($gameId);
+
+if (empty($single)) {
+    header("Location: games.php");
+    exit();
+}
 ?>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <!-- Meta-Tags -->
@@ -17,16 +30,16 @@ $category = $search->viewCategory(htmlspecialchars($_GET["id"]));
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Details of <?php foreach ($single as $i) {
-                                                        echo $i["name"];
-                                                    } ?>on the BetterGaming Games store." />
+                                                        echo escapeHtml($i["name"]);
+                                                    } ?> on the BetterGaming Games store." />
     <meta name="keywords" content="BetterGaming, Better Gaming, <?php foreach ($single as $i) {
-                                                                    echo $i["name"];
+                                                                    echo escapeHtml($i["name"]);
                                                                 } ?>" />
     <meta name="robots" content="index,follow" />
-    <link rel="canonical" href="aquitano.ga/bettergaming/game/<?php echo $i["id"]; ?>">
+    <link rel="canonical" href="aquitano.ga/bettergaming/game/<?php echo escapeHtml($i["id"]); ?>">
     <link rel="shortcut icon" href="../img/logo.webp" type="image/x-icon" />
     <title><?php foreach ($single as $i) {
-                echo $i["name"];
+                echo escapeHtml($i["name"]);
             } ?> - BetterGaming | Your Game Store</title>
     <!-- CSS -->
     <link href="../css/tailwind.min.css" rel="stylesheet">
@@ -126,32 +139,39 @@ $category = $search->viewCategory(htmlspecialchars($_GET["id"]));
             </select>
         </div>
     <!-- Game information -->
-        <?php foreach ($single as $i) { ?>
+        <?php foreach ($single as $i) {
+            $gameName = escapeHtml($i["name"]);
+            $gamePrice = escapeHtml($i["price"]);
+            $gameId = escapeHtml($i["id"]);
+            $gameStock = (int)$i["available_stock"];
+            // Sanitize description - allow only safe HTML tags
+            $gameDesc = strip_tags($i["desc"], '<p><br><h2><h3><a><strong><em><ul><li><ol>');
+        ?>
             <div class='row' style="align-content: center;justify-content: space-around;">
                 <div class='grid grid-cols-1 gap-8 md:grid-cols-2' id='dataViewer'>
 
                     <div>
-                        <img src="../img/game/<?php echo $i["name"]; ?>.jpg" alt="<?php echo $i["name"]; ?>" width='82%' />
+                        <img src="../img/game/<?php echo $gameName; ?>.jpg" alt="<?php echo $gameName; ?>" width='82%' />
                     </div>
 
                     <div>
                         <p class="font-light" style="margin-top:10px; margin-bottom:10px"><a href="../games">Games</a> /
-                            <?php echo $i["name"]; ?></p>
-                        <h1 class="font-bold text-8xl" id="Name"><?php echo $i["name"]; ?></h1>
+                            <?php echo $gameName; ?></p>
+                        <h1 class="font-bold text-8xl" id="Name"><?php echo $gameName; ?></h1>
                         <div class="tags">
                             <?php foreach ($category as $c) {
-                                echo "<a>" . $c["name"] . "</a>";
+                                echo "<a>" . escapeHtml($c["name"]) . "</a>";
                             } ?>
                         </div>
-                        <h4 style="margin: 20px 0; font-size: 22px; font-weight: bold;"><?php echo $i["price"]; ?>€</h4>
+                        <h4 style="margin: 20px 0; font-size: 22px; font-weight: bold;"><?php echo $gamePrice; ?>&#8364;</h4>
                         <select>
                             <option value='1'>PC</option>
                             <option value='2'>PS5</option>
                             <option value='3'>XBOX</option>
                         </select>
-                        <input type='number' id="quantity" value='1' min='1' max='<?php echo $i["available_stock"]; ?>'>
+                        <input type='number' id="quantity" value='1' min='1' max='<?php echo $gameStock; ?>'>
 
-                <?php if ($i["available_stock"] == 0) { ?>
+                <?php if ($gameStock == 0) { ?>
                         <div class='buttons__button'>
                             <button class='button button--slide'>
                                 <span>OUT OF STOCK!</span>
@@ -168,7 +188,7 @@ $category = $search->viewCategory(htmlspecialchars($_GET["id"]));
                 </div>
             </div>
             <h3 class='font-bold text-2xl' style='margin-top:25px'>Product Details</h3>
-            <div class="description"><?php echo $i["desc"]; ?></div>
+            <div class="description"><?php echo $gameDesc; ?></div>
         <?php } ?>
     </div>
 
@@ -181,12 +201,16 @@ $category = $search->viewCategory(htmlspecialchars($_GET["id"]));
             </a>
         </div>
         <div class="row">
-            <?php foreach ($random as $i) { ?>
-                <a href="../game/<?php echo $i["id"]; ?>" class="hover">
+            <?php foreach ($random as $i) {
+                $rName = escapeHtml($i["name"]);
+                $rId = escapeHtml($i["id"]);
+                $rPrice = escapeHtml($i["price"]);
+            ?>
+                <a href="../game/<?php echo $rId; ?>" class="hover">
                     <div data-scroll class="col-4">
-                        <img src="../img/game/<?php echo $i["name"]; ?>.jpg" loading="lazy" width="233" height="324" alt="<?php echo $i["name"]; ?>" />
-                        <h4><?php echo $i["name"]; ?></h4>
-                        <p><?php echo $i["price"]; ?>€</p>
+                        <img src="../img/game/<?php echo $rName; ?>.jpg" loading="lazy" width="233" height="324" alt="<?php echo $rName; ?>" />
+                        <h4><?php echo $rName; ?></h4>
+                        <p><?php echo $rPrice; ?>&#8364;</p>
                     </div>
                 </a>
             <?php } ?>
@@ -231,8 +255,11 @@ $category = $search->viewCategory(htmlspecialchars($_GET["id"]));
     <script>
         // Adds game to shopping cart
         $('#btn').click(function() {
-            var quantity = $('#quantity').val();
-            window.location.href = "../includes/cart-inc.php?addcart=<?php foreach ($single as $i) {echo $i["id"]; } ?>&quantity=" + quantity;
+            var quantity = parseInt($('#quantity').val(), 10);
+            if (isNaN(quantity) || quantity < 1) {
+                quantity = 1;
+            }
+            window.location.href = "../includes/cart-inc.php?addcart=<?php echo $gameId; ?>&quantity=" + quantity;
         });
 
         once = 1;

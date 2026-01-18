@@ -1,26 +1,28 @@
 <?php
 
-if(count(get_included_files()) ==1){ exit("Direct access not permitted."); }
+if (count(get_included_files()) == 1) {
+    exit("Direct access not permitted.");
+}
 include 'variables.php';
+
 class DB
 {
-    // Connection to MySQL database. Trying connection. Exception on Failure
     private $con;
 
     public function __construct()
     {
         global $var_host, $var_db, $var_username, $var_pas;
-        $dsn = "mysql:host=" . $var_host . ";dbname=" . $var_db .";charset=utf8mb4";
+        $dsn = "mysql:host=" . $var_host . ";dbname=" . $var_db . ";charset=utf8mb4";
 
         try {
             $this->con = new PDO($dsn, $var_username, $var_pas);
             $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->con->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         } catch (PDOException $e) {
-            echo "Connection Failure" . $e->getMessage();
+            error_log("Database connection failed: " . $e->getMessage());
+            throw new Exception("Database connection failed. Please try again later.");
         }
     }
-
-    // Returns all games via MySQL query (+ Prevention of SQL Injection)
 
     public function viewData()
     {
@@ -30,8 +32,6 @@ class DB
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Returns featured games via MySQL query (+ Prevention of SQL Injection)
-
     public function viewFeatured()
     {
         $query = "SELECT id, name, price FROM product WHERE featured = 1 LIMIT 4";
@@ -39,8 +39,6 @@ class DB
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    // Returns recent games via MySQL query (+ Prevention of SQL Injection)
 
     public function viewRecent()
     {
@@ -50,68 +48,106 @@ class DB
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Returns random games via MySQL query (+ Prevention of SQL Injection)
-
     public function viewRandom($id)
     {
-        $query = "SELECT id, name, price FROM product WHERE NOT id = $id ORDER BY RAND() LIMIT 4";
+        $id = filter_var($id, FILTER_VALIDATE_INT);
+        if ($id === false) {
+            return [];
+        }
+        $query = "SELECT id, name, price FROM product WHERE id != :id ORDER BY RAND() LIMIT 4";
         $statement = $this->con->prepare($query);
-        $statement->execute();
+        $statement->execute([":id" => $id]);
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    // Returns single games via MySQL query (+ Prevention of SQL Injection)
 
     public function viewSingleGame($id)
     {
-        $query = "SELECT * FROM product WHERE id = $id LIMIT 1";
+        $id = filter_var($id, FILTER_VALIDATE_INT);
+        if ($id === false) {
+            return [];
+        }
+        $query = "SELECT * FROM product WHERE id = :id LIMIT 1";
         $statement = $this->con->prepare($query);
-        $statement->execute();
+        $statement->execute([":id" => $id]);
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Returns all categories for game via MySQL query (+ Prevention of SQL Injection)
-
     public function viewCategory($id)
     {
-        $query = "SELECT product_category.name FROM product, product_to_category, product_category WHERE product.id = $id AND product.id = product_to_category.product_id AND product_category.id = product_to_category.category_id";
+        $id = filter_var($id, FILTER_VALIDATE_INT);
+        if ($id === false) {
+            return [];
+        }
+        $query = "SELECT product_category.name FROM product
+                  INNER JOIN product_to_category ON product.id = product_to_category.product_id
+                  INNER JOIN product_category ON product_category.id = product_to_category.category_id
+                  WHERE product.id = :id";
         $statement = $this->con->prepare($query);
-        $statement->execute();
+        $statement->execute([":id" => $id]);
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function viewCart($id)
     {
-        $query = "SELECT product.id, product.name, product.price, product.available_stock, cart_item.quantity FROM cart_item, product, user WHERE user.id = $id AND cart_item.user_id = user.id AND cart_item.product_id = product.id";
+        $id = filter_var($id, FILTER_VALIDATE_INT);
+        if ($id === false) {
+            return [];
+        }
+        $query = "SELECT product.id, product.name, product.price, product.available_stock, cart_item.quantity
+                  FROM cart_item
+                  INNER JOIN product ON cart_item.product_id = product.id
+                  INNER JOIN user ON cart_item.user_id = user.id
+                  WHERE user.id = :id";
         $statement = $this->con->prepare($query);
-        $statement->execute();
+        $statement->execute([":id" => $id]);
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getorderid($payment)
     {
-        $query = "SELECT id FROM order_details WHERE payment_id = '$payment';";
+        if (empty($payment) || !preg_match('/^[a-z0-9]+$/i', $payment)) {
+            return [];
+        }
+        $query = "SELECT id FROM order_details WHERE payment_id = :payment";
         $statement = $this->con->prepare($query);
-        $statement->execute();
+        $statement->execute([":payment" => $payment]);
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getKey($Game)
+    public function getKey($game)
     {
-        $query = "SELECT product_key FROM product_unused_keys WHERE product_id = $Game LIMIT 1";
+        $game = filter_var($game, FILTER_VALIDATE_INT);
+        if ($game === false) {
+            return [];
+        }
+        $query = "SELECT product_key FROM product_unused_keys WHERE product_id = :game LIMIT 1";
         $statement = $this->con->prepare($query);
-        $statement->execute();
+        $statement->execute([":game" => $game]);
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    // Returns games that matches (LIKE) name and ordered by option (+ Prevention of SQL Injection)
 
     public function searchData($name, $option)
     {
-        $sort = array("product.name", "product.price", "product.price DESC", "product.id DESC");
-        $query = "SELECT DISTINCT product.id, product.name, product.price FROM product, product_to_category, product_category WHERE product.id = product_to_category.product_id AND product_category.id = product_to_category.category_id AND (LOWER(product.name) LIKE LOWER(:name) OR LOWER(product_category.name) LIKE LOWER(:name))ORDER BY $sort[$option]";
+        $sortOptions = [
+            0 => "product.name ASC",
+            1 => "product.price ASC",
+            2 => "product.price DESC",
+            3 => "product.id DESC"
+        ];
+
+        $option = filter_var($option, FILTER_VALIDATE_INT);
+        if ($option === false || !isset($sortOptions[$option])) {
+            $option = 0;
+        }
+
+        $query = "SELECT DISTINCT product.id, product.name, product.price
+                  FROM product
+                  INNER JOIN product_to_category ON product.id = product_to_category.product_id
+                  INNER JOIN product_category ON product_category.id = product_to_category.category_id
+                  WHERE LOWER(product.name) LIKE LOWER(:name) OR LOWER(product_category.name) LIKE LOWER(:name)
+                  ORDER BY " . $sortOptions[$option];
         $statement = $this->con->prepare($query);
-        $statement->execute(["name" => "%" . $name . "%"]);
+        $statement->execute([":name" => "%" . $name . "%"]);
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 }

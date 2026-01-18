@@ -1,18 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <?php
+session_start();
 require_once 'functions/search.php';
+require_once 'includes/functions-inc.php';
 
 $search = new DB();
 $data = $search->viewData();
 
+$searchInputHtml = '';
 if (isset($_POST['search'])) {
-    $searchInput = htmlspecialchars($_POST['search']);
-    echo "<div id='HomeSearch' style='display: none;'>$searchInput</div>";
+    $searchInput = escapeHtml($_POST['search']);
+    $searchInputHtml = "<div id='HomeSearch' style='display: none;'>$searchInput</div>";
 }
-
 ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<?php echo $searchInputHtml; ?>
 
 <head>
     <!-- Meta-Tags -->
@@ -107,12 +110,16 @@ if (isset($_POST['search'])) {
         </div>
         <div class="row" style="align-content: center;justify-content: space-around;">
             <div class="grid grid-cols-1 gap-4 md:grid-cols-4" id="dataViewer">
-                <?php foreach ($data as $i) { ?>
-                    <a href="game/<?php echo $i["id"]; ?>" class="hover">
+                <?php foreach ($data as $i) {
+                    $gameName = escapeHtml($i["name"]);
+                    $gameId = escapeHtml($i["id"]);
+                    $gamePrice = escapeHtml($i["price"]);
+                ?>
+                    <a href="game/<?php echo $gameId; ?>" class="hover">
                         <div data-scroll>
-                            <img src="img/game/<?php echo $i["name"]; ?>.jpg" loading="lazy" width="233" height="324" alt="<?php echo $i["name"]; ?>" />
-                            <h4><?php echo $i["name"]; ?></h4>
-                            <p><?php echo $i["price"]; ?>€</p>
+                            <img src="img/game/<?php echo $gameName; ?>.jpg" loading="lazy" width="233" height="324" alt="<?php echo $gameName; ?>" />
+                            <h4><?php echo $gameName; ?></h4>
+                            <p><?php echo $gamePrice; ?>&#8364;</p>
                         </div>
                     </a>
                 <?php } ?>

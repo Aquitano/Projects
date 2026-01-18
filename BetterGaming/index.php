@@ -1,11 +1,11 @@
 <?php
+session_start();
 require_once 'functions/search.php';
+require_once 'includes/functions-inc.php';
 
 $search = new DB();
 $featured = $search->viewFeatured();
 $recent = $search->viewRecent();
-
-session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -97,12 +97,16 @@ session_start();
         <h2 class="title">Featured Games</h2>
         <div class="row">
             <!-- Checks what games are featured and shows them here -->
-            <?php foreach ($featured as $i) { ?>
-                <a href="game/<?php echo $i["id"]; ?>" class="hover">
+            <?php foreach ($featured as $i) {
+                $gameName = escapeHtml($i["name"]);
+                $gameId = escapeHtml($i["id"]);
+                $gamePrice = escapeHtml($i["price"]);
+            ?>
+                <a href="game/<?php echo $gameId; ?>" class="hover">
                     <div data-scroll class="col-4">
-                        <img src="img/game/<?php echo $i["name"]; ?>.jpg" width="233" height="324" loading="lazy" alt="<?php echo $i["name"]; ?>" />
-                        <h4><?php echo $i["name"]; ?></h4>
-                        <p><?php echo $i["price"]; ?>€</p>
+                        <img src="img/game/<?php echo $gameName; ?>.jpg" width="233" height="324" loading="lazy" alt="<?php echo $gameName; ?>" />
+                        <h4><?php echo $gameName; ?></h4>
+                        <p><?php echo $gamePrice; ?>&#8364;</p>
                     </div>
                 </a>
             <?php } ?>
@@ -116,12 +120,16 @@ session_start();
         <h2 class="title">Recently Added</h2>
         <div class="row">
             <!-- Checks what games were most recently added and shows them here -->
-            <?php foreach ($recent as $i) { ?>
-                <a href="game/<?php echo $i["id"]; ?>" class="hover">
+            <?php foreach ($recent as $i) {
+                $gameName = escapeHtml($i["name"]);
+                $gameId = escapeHtml($i["id"]);
+                $gamePrice = escapeHtml($i["price"]);
+            ?>
+                <a href="game/<?php echo $gameId; ?>" class="hover">
                     <div data-scroll class="col-4">
-                        <img src="img/game/<?php echo $i["name"]; ?>.jpg" loading="lazy" alt="<?php echo $i["name"]; ?>" />
-                        <h4><?php echo $i["name"]; ?></h4>
-                        <p><?php echo $i["price"]; ?>€</p>
+                        <img src="img/game/<?php echo $gameName; ?>.jpg" loading="lazy" alt="<?php echo $gameName; ?>" />
+                        <h4><?php echo $gameName; ?></h4>
+                        <p><?php echo $gamePrice; ?>&#8364;</p>
                     </div>
                 </a>
             <?php } ?>

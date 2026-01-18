@@ -4,6 +4,8 @@
 <?php
 
 session_start();
+require_once 'includes/functions-inc.php';
+$csrfToken = generateCsrfToken();
 
 ?>
 
@@ -89,12 +91,13 @@ session_start();
             </div>
 
             <form action="includes/details-inc.php" method="post" id="Address">
-                <input type="text" name="add_line" placeholder="Address Line 1...">
-                <input type="text" name="city" placeholder="City...">
-                <input type="text" name="postal" placeholder="Postal Code...">
-                <input type="text" name="country" placeholder="Country...">
-                <input type="text" name="phone" placeholder="Telephone  number...(optional)">
-                <button type="submit" name="submit" class="btn" style="margin: 10px 350px">Login</button>
+                <input type="hidden" name="csrf_token" value="<?php echo escapeHtml($csrfToken); ?>">
+                <input type="text" name="add_line" placeholder="Address Line 1..." autocomplete="address-line1">
+                <input type="text" name="city" placeholder="City..." autocomplete="address-level2">
+                <input type="text" name="postal" placeholder="Postal Code..." autocomplete="postal-code">
+                <input type="text" name="country" placeholder="Country..." autocomplete="country-name">
+                <input type="tel" name="phone" placeholder="Telephone number...(optional)" autocomplete="tel">
+                <button type="submit" name="submit" class="btn" style="margin: 10px 350px">Save</button>
             </form>
         </div>
     </div>
@@ -127,8 +130,9 @@ session_start();
                         <!-- Login -->
 
                         <form action="includes/login-inc.php" method="post" id="LoginForm">
-                            <input type="text" name="email" placeholder="Email...">
-                            <input type="password" name="pwd" placeholder="Password...">
+                            <input type="hidden" name="csrf_token" value="<?php echo escapeHtml($csrfToken); ?>">
+                            <input type="text" name="email" placeholder="Email..." autocomplete="email">
+                            <input type="password" name="pwd" placeholder="Password..." autocomplete="current-password">
                             <button type="submit" name="submit" class="btn">Login</button>
                         </form>
                         <?php
@@ -143,10 +147,11 @@ session_start();
                         <!-- Register -->
 
                         <form action="includes/signup-inc.php" method="post" id="RegForm">
-                            <input type="text" name="name" placeholder="Full name...">
-                            <input type="text" name="email" placeholder="Email...">
-                            <input type="password" name="pwd" placeholder="Password ...">
-                            <input type="password" name="pwdrepeat" placeholder="Repeat password...">
+                            <input type="hidden" name="csrf_token" value="<?php echo escapeHtml($csrfToken); ?>">
+                            <input type="text" name="name" placeholder="Full name..." autocomplete="name">
+                            <input type="email" name="email" placeholder="Email..." autocomplete="email">
+                            <input type="password" name="pwd" placeholder="Password..." autocomplete="new-password">
+                            <input type="password" name="pwdrepeat" placeholder="Repeat password..." autocomplete="new-password">
                             <button type="submit" name="submit" class="btn">Sign Up</button>
                         </form>
                         <?php
@@ -156,13 +161,26 @@ session_start();
                                 } else if ($_GET["error"] == "invalidemail") {
                                     echo "<p>Please enter a valid email address!</p>";
                                 } else if ($_GET["error"] == "nomatch") {
-                                    echo "<p>Password do not match!</p>";
+                                    echo "<p>Passwords do not match!</p>";
                                 } else if ($_GET["error"] == "statmentfailed") {
                                     echo "<p>Something went wrong, try again!</p>";
                                 } else if ($_GET["error"] == "emailtaken") {
                                     echo "<p>Email already taken!</p>";
                                 } else if ($_GET["error"] == "security") {
-                                    echo "<p>Passwords must be over 8 characters!";
+                                    $pwderr = isset($_GET["pwderr"]) ? $_GET["pwderr"] : "";
+                                    if ($pwderr == "length") {
+                                        echo "<p>Password must be at least 8 characters!</p>";
+                                    } else if ($pwderr == "uppercase") {
+                                        echo "<p>Password must contain an uppercase letter!</p>";
+                                    } else if ($pwderr == "lowercase") {
+                                        echo "<p>Password must contain a lowercase letter!</p>";
+                                    } else if ($pwderr == "number") {
+                                        echo "<p>Password must contain a number!</p>";
+                                    } else {
+                                        echo "<p>Password does not meet security requirements!</p>";
+                                    }
+                                } else if ($_GET["error"] == "csrf") {
+                                    echo "<p>Security validation failed. Please try again.</p>";
                                 } else if ($_GET["error"] == "none") {
                                     echo "<p>You have signed up!</p>";
                                 }

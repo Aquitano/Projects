@@ -1,58 +1,110 @@
-// Toggle function of Menu
+/**
+ * Handles navigation, loading animations, scroll effects, and parallax
+ */
 
-let menuList = document.getElementById("menuList");
+(function () {
+    'use strict';
 
-menuList.style.maxHeight = "0px";
+    // Toggle function of Menu
+    const menuList = document.getElementById('menuList');
 
-function togglemenu() {
-  if (menuList.style.maxHeight == "0px") {
-    menuList.style.maxHeight = "130px";
-  } else {
-    menuList.style.maxHeight = "0px";
-  }
-}
+    if (menuList) {
+        menuList.style.maxHeight = '0px';
+    }
 
-// Loading animation via PaceJS Framework
+    window.togglemenu = function () {
+        if (!menuList) return;
 
-const paceOptions = {
-  ajax: true,
-  document: true,
-  eventLag: false,
-};
+        if (menuList.style.maxHeight === '0px') {
+            menuList.style.maxHeight = '200px';
+        } else {
+            menuList.style.maxHeight = '0px';
+        }
+    };
 
-Pace.on("done", function () {
-  $(".p").animate(
-    {
-      top: "30%",
-      opacity: "0",
-    },
-    3000,
-    $.bez([0.19, 1, 0.22, 1])
-  );
+    // Close menu when clicking outside
+    document.addEventListener('click', function (e) {
+        if (!menuList) return;
 
-  $("#preloader").animate(
-    {
-      top: "-100%",
-    },
-    2000,
-    $.bez([0.19, 1, 0.22, 1])
-  );
-});
+        const menuIcon = document.querySelector('.menu-icon');
+        if (!menuList.contains(e.target) && e.target !== menuIcon) {
+            menuList.style.maxHeight = '0px';
+        }
+    });
 
-// Appear on Scroll via ScrollOut Framework
+    // Loading animation via PaceJS Framework
+    const paceOptions = {
+        ajax: true,
+        document: true,
+        eventLag: false,
+    };
 
-ScrollOut();
+    if (typeof Pace !== 'undefined') {
+        Pace.on('done', function () {
+            if (typeof $ !== 'undefined' && typeof $.bez !== 'undefined') {
+                $('.p').animate(
+                    {
+                        top: '30%',
+                        opacity: '0',
+                    },
+                    3000,
+                    $.bez([0.19, 1, 0.22, 1]),
+                );
 
-// Parallax mouse movement on Homepage (Changing x and y positions of image according to mouse movement)
+                $('#preloader').animate(
+                    {
+                        top: '-100%',
+                    },
+                    2000,
+                    $.bez([0.19, 1, 0.22, 1]),
+                );
+            }
+        });
+    }
 
-document.addEventListener("mousemove", parallax);
+    // Appear on Scroll via ScrollOut Framework
+    if (typeof ScrollOut !== 'undefined') {
+        ScrollOut({
+            threshold: 0.2,
+            once: true,
+        });
+    }
 
-function parallax(e) {
-  let img = $(".controller");
-  const speed = img.attr("data-speed");
+    // Parallax mouse movement on Homepage
+    // Only apply on larger screens for performance
+    if (window.innerWidth > 768) {
+        const controller = document.querySelector('.controller');
 
-  const x = (window.innerWidth - e.pageX * speed) / 100;
-  const y = (window.innerHeight - e.pageY * speed) / 100;
+        if (controller) {
+            let ticking = false;
 
-  $(".controller").css("transform", `translate(${x}px,${y}px)`);
-}
+            document.addEventListener('mousemove', function (e) {
+                if (!ticking) {
+                    window.requestAnimationFrame(function () {
+                        parallax(e);
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+        }
+    }
+
+    function parallax(e) {
+        const img = document.querySelector('.controller');
+        if (!img) return;
+
+        const speed = parseFloat(img.getAttribute('data-speed')) || -2.5;
+        const x = (window.innerWidth - e.pageX * speed) / 100;
+        const y = (window.innerHeight - e.pageY * speed) / 100;
+
+        img.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    // Escape key closes menu
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && menuList) {
+            menuList.style.maxHeight = '0px';
+        }
+    });
+})();

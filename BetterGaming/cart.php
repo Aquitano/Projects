@@ -1,23 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <?php
+session_start();
 require_once 'functions/search.php';
+require_once 'includes/functions-inc.php';
 
 $search = new DB();
 $data = $search->viewData();
 
+$searchInputHtml = '';
 if (isset($_POST['search'])) {
-    $searchInput = htmlspecialchars($_POST['search']);
-    echo "<div id='HomeSearch' style='display: none;'>$searchInput</div>";
+    $searchInput = escapeHtml($_POST['search']);
+    $searchInputHtml = "<div id='HomeSearch' style='display: none;'>$searchInput</div>";
 }
 
-session_start();
-
-$id = $_SESSION['userid'];
-echo "<div id='userid' style='display: none;'>$id</div>";
-
+$userId = isset($_SESSION['userid']) ? sanitizeInt($_SESSION['userid']) : null;
 ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<?php echo $searchInputHtml; ?>
 
 <head>
     <!-- Meta-Tags -->
@@ -106,8 +106,8 @@ echo "<div id='userid' style='display: none;'>$id</div>";
 
     <!------------- Cart ------------->
     <?php
-    if (isset($_SESSION["userid"])) {
-        $cart = $search->viewCart($_SESSION["userid"]);
+    if ($userId !== null) {
+        $cart = $search->viewCart($userId);
         $subtotal = 0;
         $payment = 0.50;
     ?>
@@ -121,34 +121,39 @@ echo "<div id='userid' style='display: none;'>$id</div>";
             </tr>
             <!-- Checks if any game is out of stock and then removes it from the cart -->
             <?php foreach ($cart as $i) {
-                    if ($i["available_stock"] == 0) {
+                    $gameName = escapeHtml($i["name"]);
+                    $gameId = escapeHtml($i["id"]);
+                    $gamePrice = escapeHtml($i["price"]);
+                    $gameStock = (int)$i["available_stock"];
+                    $gameQty = (int)$i["quantity"];
+                    if ($gameStock == 0) {
                 ?>
             <script>
-            window.location.href = "includes/cart-inc.php?removecart=<?php echo $i["id"] ?>";
+            window.location.href = "includes/cart-inc.php?removecart=<?php echo $gameId; ?>";
             </script>
             <?php } ?>
 
             <tr>
                 <td>
                     <div class="cart-info">
-                        <img src="img/game/<?php echo $i["name"]; ?>.jpg" loading="lazy"
-                            alt="<?php echo $i["name"]; ?>">
+                        <img src="img/game/<?php echo $gameName; ?>.jpg" loading="lazy"
+                            alt="<?php echo $gameName; ?>">
                         <div>
-                            <p style="margin-bottom: 10px"><?php echo $i["name"]; ?></p>
-                            <small style="margin-bottom: 10px">Price: <?php echo $i["price"]; ?>€</small>
+                            <p style="margin-bottom: 10px"><?php echo $gameName; ?></p>
+                            <small style="margin-bottom: 10px">Price: <?php echo $gamePrice; ?>&#8364;</small>
                             <br />
-                            <a href="includes/cart-inc.php?removecart=<?php echo $i["id"]; ?>"
+                            <a href="includes/cart-inc.php?removecart=<?php echo $gameId; ?>"
                                 style="margin-bottom: 10px">Remove</a>
                         </div>
                     </div>
                 </td>
-                <td><input type="number" value="<?php echo $i["quantity"]; ?>" name="<?php echo $i["id"]; ?>"
-                        max="<?php echo $i["available_stock"]; ?>" min="1"
-                        onchange="changequantity(<?php echo $i["id"]; ?>, $(this).val());"></td>
-                <td><?php echo $i["price"] * $i["quantity"]; ?>€</td>
+                <td><input type="number" value="<?php echo $gameQty; ?>" name="<?php echo $gameId; ?>"
+                        max="<?php echo $gameStock; ?>" min="1"
+                        onchange="changequantity(<?php echo $gameId; ?>, $(this).val());"></td>
+                <td><?php echo $gamePrice * $gameQty; ?>&#8364;</td>
             </tr>
             <?php
-                    $subtotal += $i["price"] * $i["quantity"];
+                    $subtotal += $i["price"] * $gameQty;
                 } ?>
         </table>
         <div class="total-price">
@@ -270,9 +275,8 @@ echo "<div id='userid' style='display: none;'>$id</div>";
 
     // If clicked on checkout button it starts the payment process
     function checkout() {
-        var total = parseFloat(($('#total').text()).replace("€", ""));
+        var total = parseFloat(($('#total').text()).replace("€", "").replace("&#8364;", ""));
         var payment = parseInt($('#payment option:selected').attr('value'));
-        console.log(total);
         $.post(
             "includes/buy-inc.php", {
                 total: total,
@@ -284,13 +288,14 @@ echo "<div id='userid' style='display: none;'>$id</div>";
 
     // Gets sorting and searching parameters and looking in database for them/it
     function refresh() {
-
-        let data = new URLSearchParams();
-        data.append(`user`, $("#userid").html());
-
+        // Use session-based authentication instead of passing user ID
         fetch('functions/searchdata.php', {
                 method: 'POST',
-                body: data
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'user=<?php echo $userId; ?>',
+                credentials: 'same-origin'
             })
             .then(res => res.json())
             .then(res => RefreshData(res))
